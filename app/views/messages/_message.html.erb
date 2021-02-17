@@ -1,0 +1,11 @@
+
+<div  id="<%=message.user.id%>" class="message <%= 'me' if message.user == current_user %>" >
+  <div class="content-container">
+    <div class="content" >
+      <%= message.content%>
+    </div>
+    <div class="author">
+      <%= message.user.username == current_user.username ? "You" : message.user.username %>
+    </div>
+  </div>
+</div>

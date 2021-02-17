@@ -1,6 +1,6 @@
 class RoomsController < ApplicationController
   before_action :set_room, only: %i[ show edit update destroy ]
-
+    before_action :set_user
   # GET /rooms or /rooms.json
   def index
     @rooms = Room.all
@@ -63,6 +63,11 @@ class RoomsController < ApplicationController
     def set_room
       @room = Room.find(params[:id])
     end
+
+    def set_user
+        @user = current_user
+    end
+
 
     # Only allow a list of trusted parameters through.
     def room_params

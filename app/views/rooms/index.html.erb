@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" id="user_id" data-user-id=<%="#{@user.id}"%> >
   <div class="row">
     <div class="col-3">
       <p>Hello, <%= current_user.username %></p>
@@ -21,24 +21,18 @@
             <span class="navbar-brand mb-0 h1"><%= @room.name %></span>
           </nav>
           <div class="chat-space">
+          <div id="messages">
             <% @room.messages.each do |message| %>
-              <div class="message  <%= 'me' if message.user == current_user %>">
-                <div class="content-container">
-                  <div class="content" >
-                    <%= message.content%>
-                  </div>
-                  <div class="author">
-                    <%= message.user.username == current_user.username ? "You" : message.user.username %>
-                  </div>
-                </div>
-              </div>
+
+                <%= render 'messages/message', message: message%>
+
               <br>
             <% end %>
+              </div>
           </div>
-                  <div class="chat-box">
-          <%= render 'messages/form', message: Message.new, room: @room %>
-        </div>
-
+          <div class="chat-box">
+            <%= render 'messages/form', message: Message.new, room: @room %>
+          </div>
         </div>
       <% end %>
     </div>
