@@ -1,0 +1,58 @@
+.chat-room {
+  height: 100vh;
+  //   border: 10px double black;
+  //   overflow-y: hidden;
+  .chat-space {
+    height: 80%;
+    overflow-y: scroll;
+    padding: 0 1% 0 2%;
+  }
+
+  .message {
+    margin-bottom: 3px;
+    min-height: 59px;
+    .content-container {
+      display: inline-block;
+      .content {
+        background-color: #eeeeee;
+        padding: 8px 16px;
+        border-radius: 20px;
+      }
+      .author {
+        font-size: 0.8rem;
+        color: #777777;
+        margin-left: 20px;
+      }
+    }
+    &.me {
+      .content-container {
+        float: right;
+        .content {
+          background-color: #007bff;
+          color: white;
+        }
+        .author {
+          float: right;
+          padding-right: 20px;
+        }
+      }
+    }
+
+    .chat-box {
+      position: absolute;
+      bottom: 0;
+      padding: 20px;
+      input[type="text"] {
+        height: 45px;
+        font-size: 18px;
+        padding: 8px;
+      }
+      .btn {
+        height: 45px;
+      }
+      .input-group {
+        width: 100%;
+      }
+    }
+  }
+}
