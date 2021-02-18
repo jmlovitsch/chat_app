@@ -22,12 +22,10 @@ class MessagesController < ApplicationController
   # POST /messages or /messages.json
   def create
     @message = Message.new(message_params)
-
     @message.user = current_user
-    @user = current_user
       if @message.save
         @message.save
-        SendMessageJob.perform_later(@message, @user)
+        SendMessageJob.perform_later(@message)
       end
   end
 

@@ -1,46 +1,51 @@
 import consumer from "./consumer";
 
-consumer.subscriptions.create(
-  { channel: "RoomChannel", room_id: 1 },
-  {
-    connected() {
-      console.log("connected...");
-      // Called when the subscription is ready for use on the server
-    },
+document.addEventListener("turbolinks:load", () => {
+  const room_element = document.getElementById("room_id");
+  const room_id = Number(room_element.getAttribute("data-room-id"));
 
-    disconnected() {
-      // Called when the subscription has been terminated by the server
-    },
+  consumer.subscriptions.subscriptions.forEach((subscription) => {
+    console.log(subscription);
+    consumer.subscriptions.remove(subscription);
+  });
 
-    received(data) {
-      const element = document.getElementById("user_id");
-      const user_id = Number(element.getAttribute("data-user-id"));
-      const message_user_id = data.message.user_id;
-      let stringToHTML = function (str) {
-        let parser = new DOMParser();
-        let doc = parser.parseFromString(str, "text/html");
-        return doc.body;
-      };
+  consumer.subscriptions.create(
+    { channel: "RoomChannel", room_id: room_id },
+    {
+      connected() {
+        console.log(consumer.subscriptions);
+        console.log("connected to " + room_id);
+        // Called when the subscription is ready for use on the server
+      },
 
-      // console.log(stringToHTML(data.html).outerHTML.replace("<body>", "").replace("</body>", ""))
+      disconnected() {
+        console.log("disconnected from " + room_id);
+        // Called when the subscription has been terminated by the server
+      },
 
-      if (user_id == message_user_id) {
-        const newData = stringToHTML(data.html);
+      received(data) {
+        const user_element = document.getElementById("user_id");
+        const user_id = Number(user_element.getAttribute("data-user-id"));
+        const message_user_id = data.message.user_id;
+        let stringToHTML = function (str) {
+          let parser = new DOMParser();
+          let doc = parser.parseFromString(str, "text/html");
+          return doc.body.firstChild;
+        };
 
-        const classname_node = newData.getElementsByClassName("message");
-
-        classname_node[0].className = "message me";
-        const newerData = newData.getElementsByClassName("author");
-        newerData[0].innerText = "You";
-        const stringed = newData.outerHTML
-          .replace("<body>", "")
-          .replace("</body>", "");
-        const messageContainer = document.getElementById("messages");
-        return (messageContainer.innerHTML += stringed);
-      } else {
-        const messageContainer = document.getElementById("messages");
-        return (messageContainer.innerHTML += data.html);
-      }
-    },
-  }
-);
+        if (user_id == message_user_id) {
+          const newData = stringToHTML(data.html);
+          newData.className = "message me";
+          const newerData = newData.getElementsByClassName("author");
+          newerData[0].innerText = "You";
+          const stringed = newData.outerHTML;
+          const messageContainer = document.getElementById("messages");
+          return (messageContainer.innerHTML += stringed);
+        } else {
+          const messageContainer = document.getElementById("messages");
+          return (messageContainer.innerHTML += data.html);
+        }
+      },
+    }
+  );
+});

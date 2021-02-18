@@ -1,0 +1,4 @@
+<%= form_with url: room_path, method: "delete" do |form| %>
+ID <%= room.id %>
+  <%= form.submit value: "X", class: "btn btn-danger"%>
+<% end %>

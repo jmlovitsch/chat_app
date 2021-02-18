@@ -1,0 +1,24 @@
+      <% if room.present? %>
+  <div class="chat-room">
+    <nav class="navbar navbar-light navright bg-light mb-4">
+      <span class="navbar-brand mb-0 h1"><%= room.name %> </span>
+      <div class="navright">
+      <%= render 'delete', room: room %>
+      <%= link_to 'Edit', edit_room_path(room) %>
+    </div>
+    </nav>
+    <div class="chat-space">
+      <div id="messages">
+        <% room.messages.each do |message| %>
+          <%= render 'messages/message', message: message%>
+          <br>
+        <% end %>
+      </div>
+    </div>
+    <div class="chat-box">
+      <%= render 'messages/form', message: Message.new, room: room %>
+    </div>
+  </div>
+<% end %>
+<%= link_to 'Edit', edit_room_path(room) %> |
+<%# <%= link_to 'Back', rooms_path %> %>
