@@ -2,7 +2,12 @@
     padding: 1%;
     overflow: hidden
 }
-
+#hidden {
+    display: none;
+}
+#not-hidden{
+    display: ruby;
+}
 .navright {
     flex-direction: row;
 }

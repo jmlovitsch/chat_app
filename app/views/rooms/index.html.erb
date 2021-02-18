@@ -1,31 +1,58 @@
 <div id="room_id" data-room-id=<%="#{@room.id if @room}"%> ></div>
 <div id="user_id" data-user-id=<%="#{current_user.id}"%> ></div>
-
 <div class="container-fluid" id="whole-page">
   <div class="row" >
     <div class="col-3">
-    <div class="card mb-1">
-    <div class="card-body">
-      Logged in as: <br><strong><%= current_user.username %></strong>
-      </div>
+      <div class="card mb-1">
+        <div class="card-body">
+          Logged in as: <br>
+          <strong><%= current_user.username %></strong>
+        </div>
       </div>
       <%= render 'form', room: Room.new %>
       <hr>
       <% @rooms.each do |room| %>
         <%= link_to room do %>
           <div class="card mb-2">
-            <div class="card-body">
+            <div key=<%="#{room.id}"%> class="card-body tagger" >
               <%= room.name %>
+              <div id="hidden" >
+              <% userArray = [] %>
+                <% room.messages.map do |m| %>
+                  <% userArray.push(m.user.username) if !userArray.include?(m.user.username)  %>
+                <%end%>
+                <ol>Contributors:
+                         <% userArray.map do |u| %>
+                         <li><%= "#{u}" %></li>
+                         <%end%>
+                </ol>
+
+              </div>
             </div>
           </div>
         <% end %>
-
       <% end %>
     </div>
     <div class="col-9">
-    <%= render 'show', room: @room %>
-
-
+      <% if @room.present? %>
+        <div class="chat-room">
+          <nav class="navbar navbar-light bg-light mb-4">
+            <span class="navbar-brand mb-0 h1"><%= @room.name %> </span>
+            <%= render 'delete', room: @room %>
+          </nav>
+          <div class="chat-space">
+            <div id="messages">
+              <% @room.messages.each do |message| %>
+                <%= render 'messages/message', message: message%>
+                <br>
+              <% end %>
+            </div>
+          </div>
+          <div class="chat-box">
+            <%= render 'messages/form', message: Message.new, room: @room %>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
