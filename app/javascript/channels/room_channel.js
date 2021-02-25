@@ -1,21 +1,12 @@
 import consumer from "./consumer";
 
 document.addEventListener("turbolinks:load", () => {
+    const username = document.getElementById("username").innerText
+    localStorage.setItem("my_chat_name", username)
   const room_element = document.getElementById("room_id");
   const room_id = Number(room_element.getAttribute("data-room-id"));
-  const tagger = document.getElementsByClassName("tagger");
-  console.log(tagger);
 
-  Object.keys(tagger).map((tag) => {
-    return tagger[tag].addEventListener("mouseenter", (event) => {
-      const innercode = tagger[tag].innerHTML;
-      const changed = innercode.replace("hidden", "not-hidden");
-      tagger[tag].addEventListener("mouseleave", (event) => {
-        return (tagger[tag].innerHTML = innercode);
-      });
-      return (tagger[tag].innerHTML = changed);
-    });
-  });
+
 
   consumer.subscriptions.subscriptions.forEach((subscription) => {
     console.log(subscription);

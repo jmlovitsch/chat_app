@@ -6,50 +6,61 @@
       <div class="card mb-1">
         <div class="card-body">
           Logged in as: <br>
-          <strong><%= current_user.username %></strong>
+          <strong id="username"><%= current_user.username %></strong>
         </div>
       </div>
       <%= render 'form', room: Room.new %>
       <hr>
+      <div id="left-bar">
       <% @rooms.each do |room| %>
-        <%= link_to room do %>
-          <div class="card mb-2">
-            <div key=<%="#{room.id}"%> class="card-body tagger" >
-              <%= room.name %>
-              <div id="hidden" >
-              <% userArray = [] %>
+        <%= link_to room, class: 'room-link' do %>
+          <div class="card mb-2 room-card">
+            <div key=<%="#{room.id}"%> class="card-body" >
+             <span class="room-name"><%= room.name %></span>
+             <br>
+             <div class="members-details"> <span class="members"><%= room.users.uniq.count %> <%= room.users.uniq.count > 1 ? "Members" : "Member" %></span>
+              <div class="hidden-details" >
+                <% userArray = [] %>
                 <% room.messages.map do |m| %>
                   <% userArray.push(m.user.username) if !userArray.include?(m.user.username)  %>
                 <%end%>
-                <ol>Contributors:
-                         <% userArray.map do |u| %>
-                         <li><%= "#{u}" %></li>
-                         <%end%>
+                <ol>
+                  <% userArray.map do |u| %>
+                    <li><%= "#{u}" %></li>
+                  <%end%>
                 </ol>
 
+              </div>
               </div>
             </div>
           </div>
         <% end %>
       <% end %>
+      </div>
     </div>
-    <div class="col-9">
+    <div class="col-9" id="right-section">
       <% if @room.present? %>
         <div class="chat-room">
-          <nav class="navbar navbar-light bg-light mb-4">
-            <span class="navbar-brand mb-0 h1"><%= @room.name %> </span>
-            <%= render 'delete', room: @room %>
-          </nav>
-          <div class="chat-space">
-            <div id="messages">
-              <% @room.messages.each do |message| %>
-                <%= render 'messages/message', message: message%>
-                <br>
-              <% end %>
+          <div class="card chat-room-card">
+            <div class="card-head">
+              <nav class="navbar navbar-light bg-light mb-4">
+                <span class="navbar-brand mb-0 h1"><%= @room.name %> </span>
+                <%= render 'delete', room: @room %>
+              </nav>
             </div>
-          </div>
-          <div class="chat-box">
-            <%= render 'messages/form', message: Message.new, room: @room %>
+            <div class="card-body">
+              <div class="chat-space">
+                <div id="messages">
+                  <% @room.messages.each do |message| %>
+                    <%= render 'messages/message', message: message%>
+                    <br>
+                  <% end %>
+                </div>
+              </div>
+              <div class="chat-box">
+                <%= render 'messages/form', message: Message.new, room: @room %>
+              </div>
+            </div>
           </div>
         </div>
       <% end %>
