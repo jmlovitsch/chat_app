@@ -1,56 +1,59 @@
 #whole-page {
-  box-sizing: border-box;
+  height: 100vh;
+  width: 100vw;
   padding: 1%;
-  overflow: hidden;
 
   #left-bar {
-    .room-link {
-      .room-card {
-        .room-name {
-          text-decoration: none;
-          font-weight: 800;
+    #room-scroll {
+        max-height: 100%;
+        overflow-y: scroll;
+      .room-link {
+        &:active {
+            background-color: #000000;
         }
-        .members-details {
-          &:hover {
+        .room-card {
+            &:active {
+                background-color: #000000;
+            }
+
+          .room-name {
+            text-decoration: none;
+            font-weight: 800;
+          }
+          .members-details {
+            &:hover {
+              .hidden-details {
+                display: block;
+              }
+            }
+            .members {
+              font-size: smaller;
+              text-decoration: none;
+              color: grey;
+              font-weight: 500;
+            }
             .hidden-details {
-              display: block;
+              display: none;
             }
           }
-          .members {
-            font-size: smaller;
-            text-decoration: none;
-            color: grey;
-            font-weight: 500;
-          }
-          .hidden-details {
-            display: none;
-          }
         }
-      }
-      &:hover {
-        text-decoration: none;
-        color: lightsteelblue;
+        &:hover {
+          text-decoration: none;
+          color: lightsteelblue;
+        }
       }
     }
   }
 
   #right-section {
-      box-sizing: border-box;
-      max-height: 100vh;
-    .navright {
-      flex-direction: row;
-    }
     .chat-room {
-      height: inherit;
-      //   border: 10px double black;
-      //   overflow-y: hidden;
-      .chat-room-card {
-        height: 100%;
-        overflow: hidden;
+
+      .navbar {
+        height: 10%;
       }
       .chat-space {
-        height: 80%;
-        overflow-y: scroll;
+        min-height: 80%;
+        overflow-y: hidden;
         padding: 0 1% 0 2%;
       }
 

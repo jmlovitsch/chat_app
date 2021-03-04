@@ -11,10 +11,10 @@
   <% end %>
   <%= form.hidden_field :room_id, value: room.id %>
   <div class="input-group">
-    <%= form.text_field :content, placeholder: "Enter message here...", class: 'form-control' %>
+    <%= form.text_field :content, placeholder: "Enter message here...", class: 'form-control', id:"message-input" %>
     <div class="input-group-append ">
     <div class="actions">
-      <%= form.submit label: "Send", name: "submit_button", type: "submit", class: 'btn btn-primary' %>
+      <%= form.submit label: "Send", name: "submit_button", type: "submit", class: 'btn btn-primary', id: "submit-btn" %>
       </div>
     </div>
   </div>

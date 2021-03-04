@@ -2,7 +2,7 @@
 <div id="user_id" data-user-id=<%="#{current_user.id}"%> ></div>
 <div class="container-fluid" id="whole-page">
   <div class="row" >
-    <div class="col-3">
+    <div class="col-3" id="left-bar">
       <div class="card mb-1">
         <div class="card-body">
           Logged in as: <br>
@@ -11,23 +11,26 @@
       </div>
       <%= render 'form', room: Room.new %>
       <hr>
-      <div id="left-bar">
+      <div id="room-scroll">
       <% @rooms.each do |room| %>
         <%= link_to room, class: 'room-link' do %>
-          <div class="card mb-2 room-card">
+        <% active_class = (@room == room) ? 'active' : ''  %>
+          <div class="card mb-2 room-card <%= active_class %>">
             <div key=<%="#{room.id}"%> class="card-body" >
              <span class="room-name"><%= room.name %></span>
              <br>
-             <div class="members-details"> <span class="members"><%= room.users.uniq.count %> <%= room.users.uniq.count > 1 ? "Members" : "Member" %></span>
+             <div class="members-details"> <span class="members"><%= room.users.uniq.count if room.users.uniq.count>0 %> <%= room.users.uniq.count > 1 ? "Members" : "Member" if room.users.uniq.count >0 %></span>
               <div class="hidden-details" >
                 <% userArray = [] %>
                 <% room.messages.map do |m| %>
                   <% userArray.push(m.user.username) if !userArray.include?(m.user.username)  %>
                 <%end%>
                 <ol>
+                <% if userArray.length > 0 %>
                   <% userArray.map do |u| %>
                     <li><%= "#{u}" %></li>
                   <%end%>
+                         <%end%>
                 </ol>
 
               </div>
